@@ -1,18 +1,39 @@
-<!doctype html>
-<html>  
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>HeartBeat_women</title> 
-    <link rel="stylesheet" href="main.css" type="text/css">
-    <script src="./js/heartbeat.js"></script>
-  </head>
-  <body>
-    <div style="text-align:center">
-      <p>♥<span id="bpm"></span>bpm</p> 
-      <a class="play" onclick="this.innerText = play();">play</a>
-    </div>
-  </body>  
-</html>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MQTT Browser Subscriber</title>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+<h1>MQTT Web Subscriber</h1>
+<div id="messages"></div>
+
+<script>
+    const host = 'wss://broker.hivemq.com:8000/mqtt';
+    const client = mqtt.connect(host);
+
+    client.on('connect', function () {
+        console.log('Connected to MQTT broker via WebSocket');
+        document.getElementById('messages').innerHTML += '<p>Connected to MQTT broker</p>';
+
+        const topic = 'sensor/data';
+        client.subscribe(topic, function (err) {
+            if (!err) {
+                document.getElementById('messages').innerHTML += <p>Subscribed to ${topic}</p>;
+            }
+        });
+    });
+
+    client.on('message', function (topic, message) {
+        console.log(Received message: ${message.toString()} on topic ${topic});
+        document.getElementById('messages').innerHTML += <p>Message on ${topic}: ${message.toString()}</p>;
+    });
+
+    client.on('error', function (err) {
+        console.error('Connection error: ', err);
+        document.getElementById('messages').innerHTML += <p>Error: ${err}</p>;
+    });
+</script>
+</body>
+</html>
