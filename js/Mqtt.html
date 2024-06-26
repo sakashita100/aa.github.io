@@ -39,6 +39,13 @@
             console.log('Received message: ' + message.toString() + ' on topic ' + topic);
             document.getElementById('messages').innerHTML += '<p>Message on ' + topic + ': ' + message.toString() + '</p>';
         });
+        // メッセージをパブリッシュ
+        client.publish('testtopic', 'ws connection demo...!', { qos: 0, retain: false })
+        // メッセージを受信
+        client.on('message', (topic, message, packet) => {
+            console.log(`Received Message: ${message.toString()} On topic: ${topic}`)
+        })
+
 
         client.on('error', function (err) {
             console.error('Connection error: ', err);
