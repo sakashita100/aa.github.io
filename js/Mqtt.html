@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MQTT Browser Subscriber</title>
-<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <meta charset="UTF-8">
+    <title>MQTT Browser Subscriber</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
-<h1>MQTT Web Subscriber</h1>
-<div id="messages"></div>
+    <h1>MQTT Web Subscriber</h1>
+    <div id="messages"></div>
 
-<script>
-    const host = 'wss://broker.hivemq.com:8000/mqtt';
-    const client = mqtt.connect(host);
+    <script>
+        const host = 'wss://broker.hivemq.com:8000/mqtt';
+        const client = mqtt.connect(host);
 
-    client.on('connect', function () {
-        console.log('Connected to MQTT broker via WebSocket');
-        document.getElementById('messages').innerHTML += '<p>Connected to MQTT broker</p>';
+        client.on('connect', function () {
+            console.log('Connected to MQTT broker via WebSocket');
+            document.getElementById('messages').innerHTML += '<p>Connected to MQTT broker</p>';
 
-        const topic = 'sensor/data';
-        client.subscribe(topic, function (err) {
-            if (!err) {
-                document.getElementById('messages').innerHTML += <p>Subscribed to ${topic}</p>;
-            }
+            const topic = 'sensor/data';
+            client.subscribe(topic, function (err) {
+                if (!err) {
+                    document.getElementById('messages').innerHTML += '<p>Subscribed to ' + topic + '</p>';
+                }
+            });
         });
-    });
 
-    client.on('message', function (topic, message) {
-        console.log(Received message: ${message.toString()} on topic ${topic});
-        document.getElementById('messages').innerHTML += <p>Message on ${topic}: ${message.toString()}</p>;
-    });
+        client.on('message', function (topic, message) {
+            console.log('Received message: ' + message.toString() + ' on topic ' + topic);
+            document.getElementById('messages').innerHTML += '<p>Message on ' + topic + ': ' + message.toString() + '</p>';
+        });
 
-    client.on('error', function (err) {
-        console.error('Connection error: ', err);
-        document.getElementById('messages').innerHTML += <p>Error: ${err}</p>;
-    });
-</script>
+        client.on('error', function (err) {
+            console.error('Connection error: ', err);
+            document.getElementById('messages').innerHTML += '<p>Error: ' + err + '</p>';
+        });
+    </script>
 </body>
 </html>
