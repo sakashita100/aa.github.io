@@ -10,7 +10,6 @@
     <div id="messages"></div>
 
     <script>
-       // const host = 'wss://broker.hivemq.com:8000/mqtt';
         const host = {
             protocol: 'wss',
             hostname: 'broker.hivemq.com',
@@ -27,6 +26,9 @@
             client.subscribe(topic, function (err) {
                 if (!err) {
                     document.getElementById('messages').innerHTML += '<p>Subscribed to ' + topic + '</p>';
+                } else {
+                    console.error('Subscribe error: ', err);
+                    document.getElementById('messages').innerHTML += '<p>Error subscribing to topic: ' + err + '</p>';
                 }
             });
         });
@@ -39,6 +41,11 @@
         client.on('error', function (err) {
             console.error('Connection error: ', err);
             document.getElementById('messages').innerHTML += '<p>Error: ' + err + '</p>';
+        });
+
+        client.on('close', function () {
+            console.log('Connection closed');
+            document.getElementById('messages').innerHTML += '<p>Connection closed</p>';
         });
     </script>
 </body>
