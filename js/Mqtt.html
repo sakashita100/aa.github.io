@@ -10,7 +10,13 @@
     <div id="messages"></div>
 
     <script>
-        const host = 'wss://broker.hivemq.com:8000/mqtt';
+       // const host = 'wss://broker.hivemq.com:8000/mqtt';
+        const host = {
+            protocol: 'wss',
+            hostname: 'broker.hivemq.com',
+            port: 8000,
+            path: '/mqtt'
+        };
         const client = mqtt.connect(host);
 
         client.on('connect', function () {
