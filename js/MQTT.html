@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MQTT Browser Publisher and Subscriber</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+    <h1>MQTT Web Publisher and Subscriber</h1>
+    
+    <h2>Publish Message</h2>
+    <input type="text" id="publishTopic" placeholder="Enter topic" value="sensor/data"><br>
+    <input type="text" id="publishMessage" placeholder="Enter message"><br>
+    <button onclick="publishMessage()">Publish</button>
+
+    <h2>Received Messages</h2>
+    <div id="messages"></div>
+
+    <script>
+        const host = {
+            protocol: 'wss',
+            hostname: 'broker.hivemq.com',
+            port: 8000,
+            path: '/mqtt'
+        };
+        const client = mqtt.connect(host);
+
+        client.on('connect', function () {
+            console.log('Connected to MQTT broker via WebSocket');
+            document.getElementById('messages').innerHTML += '<p>Connected to MQTT broker</p>';
+
+            const topic = 'sensor/data';
+            client.subscribe(topic, function (err) {
+                if (!err) {
+                    document.getElementById('messages').innerHTML += '<p>Subscribed to ' + topic + '</p>';
+                }
+            });
+        });
+
+        client.on('message', function (topic, message) {
+            console.log('Received message: ' + message.toString() + ' on topic ' + topic);
+            document.getElementById('messages').innerHTML += '<p>Message on ' + topic + ': ' + message.toString() + '</p>';
+        });
+
+        client.on('error', function (err) {
+            console.error('Connection error: ', err);
+            document.getElementById('messages').innerHTML += '<p>Error: ' + err + '</p>';
+        });
+
+        function publishMessage() {
+            const topic = document.getElementById('publishTopic').value;
+            const message = document.getElementById('publishMessage').value;
+
+            client.publish(topic, message, function (err) {
+                if (err) {
+                    console.error('Publish error: ', err);
+                    document.getElementById('messages').innerHTML += '<p>Error publishing message: ' + err + '</p>';
+                } else {
+                    document.getElementById('messages').innerHTML += '<p>Message "' + message + '" published to ' + topic + '</p>';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
