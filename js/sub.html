@@ -22,7 +22,7 @@
       onSuccess: function () {
         console.log("mqtt connected");
         // Connection succeeded; subscribe to our topics
-        client.subscribe(MQTTsubTopic, {qos: 1});
+        client.subscribe(MQTTsubTopic, sensa/data);
       },
       onFailure: function (message) {
         console.log("Connection failed, ERROR: " + message.errorMessage);
@@ -117,8 +117,6 @@
     });
   </script>
 
-  <script src="http://code.highcharts.com/stock/highstock.js"></script>
-  <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 </head>
 <body>
 <body onload="init();"><!--Start the javascript ball rolling and connect to the mqtt broker-->
