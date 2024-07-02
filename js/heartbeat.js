@@ -11,8 +11,8 @@ var nextNoteTime = 0.0; //次のメモの期限が来たとき
 var noteLength = 0.05;  //ビープ音の長さ(秒単位)
 var beat = null; //心拍の音を入れる箱
 var data = null; //取得した心拍数
-//var data = "78,78,77,76,78,79,76,78,79,78,76,78,76,79,78,81,82,81,79,78,80,80,81,83,85,86,84,85,87,88,87,89,87,87,87,87,86,81,80,81,87,88,85,83,82,82,81,83,81,79,79,83,79,79,80,";
-var xhr = new XMLHttpRequest();
+var data = "78,78,77,76,78,79,76,78,79,78,76,78,76,79,78,81,82,81,79,78,80,80,81,83,85,86,84,85,87,88,87,89,87,87,87,87,86,81,80,81,87,88,85,83,82,82,81,83,81,79,79,83,79,79,80,";
+/*var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
 xhr.open('GET', 'https://ojwu5eyrmljdzv76bpbonfe4ku0xcibe.lambda-url.ap-northeast-1.on.aws/', false);   // 'https://heartbeat-get.tk/  ,false'
 xhr.onload = function(e) {
@@ -26,7 +26,7 @@ xhr.onload = function(e) {
   }
 }
 xhr.send(null);
-
+*/
 const bpms = data.split(",").map( str => parseInt(str, 10));
 console.log(bpms[0]);
 var bpm = bpms[0];
